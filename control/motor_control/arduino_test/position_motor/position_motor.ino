@@ -20,6 +20,8 @@
 #define M_PWM 11
 #define M_OC 12
 #define OC_ADJ 13
+#define N_FAULT 9
+#define N_OCTW 10
 
 // Motor instance
 BLDCMotor motor = BLDCMotor(20, 0.186, 90);
@@ -54,8 +56,8 @@ void setup() {
 
   // DRV8302 specific code
   //Alerts
-  pinMode(9,INPUT);
-  pinMode(10,INPUT);
+  pinMode(N_FAULT,INPUT);
+  pinMode(N_OCTW,INPUT);
 
   // M_OC  - enable overcurrent protection
   pinMode(M_OC,OUTPUT);
@@ -71,6 +73,8 @@ void setup() {
   // driver config
   // power supply voltage [V]
   driver.voltage_power_supply = 24;
+   // pwm frequency to be used [Hz]
+  driver.pwm_frequency = 20000;
   driver.init();
   // link the motor and the driver
   motor.linkDriver(&driver);
@@ -90,6 +94,8 @@ void setup() {
   motor.PID_velocity.D = 0;
   // maximal voltage to be set to the motor
   motor.voltage_limit = 24;
+  //Limits voltage (and therefore current) during motor alignment. Value in Volts.
+  motor.voltage_sensor_align = 2;
 
   // velocity low pass filtering time constant
   // the lower the less filtered
@@ -100,6 +106,8 @@ void setup() {
   // maximal velocity of the position control
   motor.velocity_limit = 20;
 
+  //encoder offset
+  motor.sensor_offset=0;
   // use monitoring with serial
   Serial.begin(115200);
   // comment out if not needed

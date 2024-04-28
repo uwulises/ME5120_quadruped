@@ -11,9 +11,12 @@ En esta versi√≥n se propone utilizar el driver texas drv8302 junto a la [librer√
 <img src="/wiring.png" width="400">
 
 # Design
-## Concept
-<img src="/concept.PNG" width="500">
+## Concept & Mockup
+<img align="left" src="/concept.PNG" width="400"> 
+<img align="right" src="/mockup.PNG" width="400">
 
-## Mockup
+<br clear="left"/>
 
-<img src="/mockup.PNG" width="500">
+## Prototype
+
+<img align="left" src="/prototipo.PNG" width="500">

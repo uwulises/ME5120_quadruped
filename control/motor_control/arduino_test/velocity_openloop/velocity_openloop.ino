@@ -13,14 +13,10 @@
 #define OC_ADJ 13
 #define N_FAULT 9
 #define N_OCTW 10
-// #define IOUTA 13
-// #define IOUTB 14
-// #define IOUTC 15
 #define DIR 19
 
 // Motor instance (90KV, pero se recomienda un 50 a 70% más)
-BLDCMotor motor = BLDCMotor(20, 0.05, 90);
-//BLDCMotor motor = BLDCMotor(20, 0.186, 135);
+BLDCMotor motor = BLDCMotor(20, 0.186, 90);
 
 BLDCDriver3PWM driver = BLDCDriver3PWM(INH_A, INH_B, INH_C, EN_GATE);
 MagneticSensorI2C sensor = MagneticSensorI2C(0x36, 12, 0x0E, 4);
@@ -49,21 +45,13 @@ void serialEvent() {
 
 void setup() {
 
-  //current reading (INLINE )
-  // pinMode(IOUTA, INPUT);
-  // pinMode(IOUTB, INPUT);
-  // pinMode(IOUTC, INPUT);
-
   //led onboard
   pinMode(25, OUTPUT);
   digitalWrite(25, HIGH);
   pinMode(DIR, OUTPUT);
   digitalWrite(DIR, LOW);
   // initialise magnetic sensor hardware
-  // configure i2C
-  Wire.setClock(100000);
-  // providing 
-  sensor.init(&Wire);
+  sensor.init();
   // link the motor to the sensor
   motor.linkSensor(&sensor);
   //motor.linkCurrentSense();
@@ -88,48 +76,20 @@ void setup() {
   // power supply voltage [V]
   driver.voltage_power_supply = 24;
   // pwm frequency to be used [Hz]
-  driver.pwm_frequency = 40000;
+  driver.pwm_frequency = 50000;
   driver.init();
   // link the motor and the driver
   motor.linkDriver(&driver);
-  //motor.velocity_index_search = 3; // rad/s
-  //Limits voltage (and therefore current) during motor alignment. Value in Volts.
-  motor.voltage_sensor_align = 1;
 
   // choose FOC modulation
   motor.foc_modulation = FOCModulationType::SpaceVectorPWM;
   // set motion control loop to be used
-  motor.controller = MotionControlType::angle;
-  // velocity PI controller parameters
-  motor.PID_velocity.P = 1;
-  motor.PID_velocity.I = 2;
-  motor.PID_velocity.D = 0;
-
-  //motor.PID_velocity.output_ramp = 1000;
-  
-
-  // velocity low pass filtering time constant
-  motor.LPF_velocity.Tf = 0.01;
-  motor.LPF_angle.Tf = 0;
-
-  // angle PID controller
-  // default P=20
-  motor.P_angle.P = 20;
-  motor.P_angle.I = 0;  // usually only P controller is enough
-  motor.P_angle.D = 0;  // usually only P controller is enough
-  // acceleration control using output ramp
-  // this variable is in rad/s^2 and sets the limit of acceleration
-  motor.P_angle.output_ramp = 10000;  // default 1e6 rad/s^2
+  motor.controller = MotionControlType::velocity_openloop;
 
   // maximal voltage to be set to the motor
   motor.voltage_limit = 24;
-  // maximal velocity of the position control
-  motor.velocity_limit = 50;
   //motor.PID_velocity.limit = 100;
-  motor.current_limit = 20;
-
-  //encoder offset
-  motor.sensor_offset = 0;
+  motor.current_limit = 5;
   // use monitoring with serial
   Serial.begin(115200);
   motor.useMonitoring(Serial);
@@ -139,9 +99,7 @@ void setup() {
   motor.initFOC();
 
   Serial.println(F("Motor ready."));
-
   _delay(1000);
-  //motor.motion_downsample = 2;
 }
 
 
@@ -156,9 +114,9 @@ void loop() {
       motor.target = target;
       Serial.print(target);
       Serial.print(" ");
-      Serial.print(motor.shaft_angle);
+      Serial.print(sensor.getSensorAngle());
       Serial.print(" ");
-      Serial.println(sensor.getSensorAngle());
+      Serial.println(sensor.getVelocity());
       inputString = "";
       stringComplete = false;
     }

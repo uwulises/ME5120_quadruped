@@ -3,17 +3,8 @@ import mujoco.viewer
 import time
 
 model = mujoco.MjModel.from_xml_path("model/scene.xml")
-mujoco.MjvScene(model, maxgeom=10)
 data = mujoco.MjData(model)
 model.opt.gravity = (0, 0, -9.81)
-
-
-mujoco.mj_step(model, data)
-
-# Make renderer, render and show the pixels
-renderer = mujoco.Renderer(model)
-renderer.update_scene(data)    
-
 
 with mujoco.viewer.launch(model, data, show_left_ui=True,show_right_ui=True) as viewer:
   # Close the viewer automatically after 30 wall-seconds.

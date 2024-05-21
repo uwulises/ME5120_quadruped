@@ -26,3 +26,6 @@ En esta versi√≥n se propone utilizar el driver texas drv8302 junto a la [librer√
 
 ## Prototype
 <img src="/prototipo.PNG" width="500">
+
+## Simulation - Mujoco
+<img src="/sim_mujoco.png" width="500">

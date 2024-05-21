@@ -1,10 +1,10 @@
-<mujoco model="a1">
+<mujoco model="franki">
   <compiler angle="radian" meshdir="assets" texturedir="assets" autolimits="true"/>
 
   <option cone="elliptic" impratio="100"/>
 
   <default>
-    <default class="a1">
+    <default class="franki">
       <geom friction="0.6" margin="0.001"/>
       <joint axis="0 1 0" damping="2" armature="0.01" frictionloss="0.2"/>
       <position kp="100" forcerange="-33.5 33.5"/>
@@ -55,130 +55,143 @@
   </default>
 
   <asset>
-    <material name="dark" specular="0" shininess="0.25" rgba="0.2 0.2 0.2 1"/>
+    <material name="dark" specular="0" shininess="0.25" rgba="0.45 0.45 0.45 1"/>
     <texture type="2d" name="trunk_A1" file="trunk_A1.png"/>
     <material name="carbonfibre" texture="trunk_A1" specular="0" shininess="0.25"/>
 
-    <mesh class="a1" file="calf_franki.obj"/>
-    <mesh class="a1" file="hip_franki.obj"/>
-    <mesh class="a1" file="thigh_franki.obj"/>
-    <mesh class="a1" file="thigh_mirror_franki.obj"/>
-    <mesh class="a1" file="trunk_franki.obj"/>
+    <mesh class="franki" file="calf_franki.obj"/>
+    <mesh class="franki" file="hip_franki.obj"/>
+    <mesh class="franki" file="thigh_franki.obj"/>
+    <mesh class="franki" file="thigh_mirror_franki.obj"/>
+    <mesh class="franki" file="trunk_franki.obj"/>
   </asset>
 
   <worldbody>
     <light name="spotlight" mode="targetbodycom" target="trunk" pos="0 -1 2"/>
-    <body name="trunk" pos="0 0 0.63" childclass="a1">
+    <body name="trunk" pos="0 0 0.63" childclass="franki">
       <freejoint/>
-      <inertial mass="4.713" pos="0 0.0041 -0.0005"
+      <inertial mass="7.5" pos="0 0.0041 -0.0005"
         fullinertia="0.0158533 0.0377999 0.0456542 -3.66e-05 -6.11e-05 -2.75e-05"/>
       <geom class="visual" mesh="trunk_franki" material="carbonfibre"/>
-      <geom class="collision" size="0.125 0.04 0.057" type="box"/>
+      <geom class="collision" mesh="trunk_franki"/>
+      <!-- <geom class="collision" size="0.125 0.04 0.057" type="box"/>
       <geom class="collision" quat="1 0 1 0" pos="0 -0.04 0" size="0.058 0.125" type="cylinder"/>
       <geom class="collision" quat="1 0 1 0" pos="0 +0.04 0" size="0.058 0.125" type="cylinder"/>
       <geom class="collision" pos="0.25 0 0" size="0.005 0.06 0.05" type="box"/>
       <geom class="collision" pos="0.25 0.06 -0.01" size="0.009 0.035"/>
       <geom class="collision" pos="0.25 -0.06 -0.01" size="0.009 0.035"/>
       <geom class="collision" pos="0.25 0 -0.05" size="0.005 0.06" quat="1 1 0 0"/>
-      <geom class="collision" pos="0.255 0 0.0355" size="0.021 0.052" quat="1 1 0 0"/>
+      <geom class="collision" pos="0.255 0 0.0355" size="0.021 0.052" quat="1 1 0 0"/> -->
       <body name="FR_hip" pos="0.255 -0.105 0">
-        <inertial mass="0.696" pos="-0.003311 -0.000635 3.1e-05" quat="0.507528 0.506268 0.491507 0.494499"
+        <inertial mass="0.7" pos="-0.003311 -0.000635 3.1e-05" quat="0.507528 0.506268 0.491507 0.494499"
           diaginertia="0.000807752 0.00055293 0.000468983"/>
         <joint class="abduction" name="FR_hip_joint"/>
         <geom class="visual" mesh="hip_franki" quat="0 1 0 0"/> 
-        <geom class="hip_right"/>
+        <geom class="collision" mesh="hip_franki" quat="0 1 0 0"/> 
+        <!-- <geom class="hip_right"/> -->
         <body name="FR_thigh" pos="0 -0.193 0">
-          <inertial mass="1.013" pos="-0.003237 0.022327 -0.027326" quat="0.999125 -0.00256393 -0.0409531 -0.00806091"
+          <inertial mass="1.5" pos="-0.003237 0.022327 -0.027326" quat="0.999125 -0.00256393 -0.0409531 -0.00806091"
             diaginertia="0.00555739 0.00513936 0.00133944"/>
           <joint class="hip" name="FR_thigh_joint"/>
           <geom class="visual" mesh="thigh_mirror_franki"/>
-          <geom class="thigh1"/>
+          <geom class="collision" mesh="thigh_mirror_franki"/>
+          <!-- <geom class="thigh1"/>
           <geom class="thigh2"/>
-          <geom class="thigh3"/>
+          <geom class="thigh3"/> -->
           <body name="FR_calf" pos="0 0 -0.2575">
             <inertial mass="0.226" pos="0.00472659 0 -0.131975" quat="0.706886 0.017653 0.017653 0.706886"
               diaginertia="0.00340344 0.00339393 3.54834e-05"/>
             <joint class="knee" name="FR_calf_joint"/>
             <geom class="visual" mesh="calf_franki"/>
-            <geom class="calf1"/>
+            <geom class="collision" mesh="calf_franki"/>
+            <!-- <geom class="calf1"/>
             <geom class="calf2"/>
-            <geom class="foot"/>
+            <geom class="foot"/> -->
           </body>
         </body>
       </body>
       <body name="FL_hip" pos="0.255 0.105 0">
-        <inertial mass="0.696" pos="-0.003311 0.000635 3.1e-05" quat="0.494499 0.491507 0.506268 0.507528"
+        <inertial mass="0.7" pos="-0.003311 0.000635 3.1e-05" quat="0.494499 0.491507 0.506268 0.507528"
           diaginertia="0.000807752 0.00055293 0.000468983"/>
         <joint class="abduction" name="FL_hip_joint"/>
         <geom class="visual" mesh="hip_franki"/>
-        <geom class="hip_left"/>
+        <geom class="collision" mesh="hip_franki"/>
+        <!-- <geom class="hip_left"/> -->
         <geom class="collision" size="0.04 0.04" pos="0 0.055 0" quat="1 1 0 0" type="cylinder"/>
         <body name="FL_thigh" pos="0 0.193 0">
-          <inertial mass="1.013" pos="-0.003237 -0.022327 -0.027326" quat="0.999125 0.00256393 -0.0409531 0.00806091"
+          <inertial mass="1.5" pos="-0.003237 -0.022327 -0.027326" quat="0.999125 0.00256393 -0.0409531 0.00806091"
             diaginertia="0.00555739 0.00513936 0.00133944"/>
           <joint class="hip" name="FL_thigh_joint"/>
           <geom class="visual" mesh="thigh_franki"/>
-          <geom class="thigh1"/>
+          <geom class="collision" mesh="thigh_franki"/>
+          <!-- <geom class="thigh1"/>
           <geom class="thigh2"/>
-          <geom class="thigh3"/>
+          <geom class="thigh3"/> -->
           <body name="FL_calf" pos="0 0 -0.2575">
             <inertial mass="0.226" pos="0.00472659 0 -0.131975" quat="0.706886 0.017653 0.017653 0.706886"
               diaginertia="0.00340344 0.00339393 3.54834e-05"/>
             <joint class="knee" name="FL_calf_joint"/>
             <geom class="visual" mesh="calf_franki"/>
-            <geom class="calf1"/>
+            <geom class="collision" mesh="calf_franki"/>
+            <!-- <geom class="calf1"/>
             <geom class="calf2"/>
-            <geom class="foot"/>
+            <geom class="foot"/> -->
           </body>
         </body>
       </body>
       <body name="RR_hip" pos="-0.255 -0.105 0">
-        <inertial mass="0.696" pos="0.003311 -0.000635 3.1e-05" quat="0.491507 0.494499 0.507528 0.506268"
+        <inertial mass="0.7" pos="0.003311 -0.000635 3.1e-05" quat="0.491507 0.494499 0.507528 0.506268"
           diaginertia="0.000807752 0.00055293 0.000468983"/>
         <joint class="abduction" name="RR_hip_joint"/>
         <geom class="visual" quat="0 0 0 -1" mesh="hip_franki"/>
-        <geom class="hip_right"/>
+        <geom class="collision" quat="0 0 0 -1" mesh="hip_franki"/>
+        <!-- <geom class="hip_right"/> -->
         <body name="RR_thigh" pos="0 -0.193 0">
-          <inertial mass="1.013" pos="-0.003237 0.022327 -0.027326" quat="0.999125 -0.00256393 -0.0409531 -0.00806091"
+          <inertial mass="1.5" pos="-0.003237 0.022327 -0.027326" quat="0.999125 -0.00256393 -0.0409531 -0.00806091"
             diaginertia="0.00555739 0.00513936 0.00133944"/>
           <joint class="hip" name="RR_thigh_joint"/>
           <geom class="visual" mesh="thigh_mirror_franki"/>
-          <geom class="thigh1"/>
+          <geom class="collision" mesh="thigh_mirror_franki"/>
+          <!-- <geom class="thigh1"/>
           <geom class="thigh2"/>
-          <geom class="thigh3"/>
+          <geom class="thigh3"/> -->
           <body name="RR_calf" pos="0 0 -0.2575">
             <inertial mass="0.226" pos="0.00472659 0 -0.131975" quat="0.706886 0.017653 0.017653 0.706886"
               diaginertia="0.00340344 0.00339393 3.54834e-05"/>
             <joint class="knee" name="RR_calf_joint"/>
             <geom class="visual" mesh="calf_franki"/>
-            <geom class="calf1"/>
+            <geom class="collision" mesh="calf_franki"/>
+            <!-- <geom class="calf1"/>
             <geom class="calf2"/>
-            <geom class="foot"/>
+            <geom class="foot"/> -->
           </body>
         </body>
       </body>
       <body name="RL_hip" pos="-0.255 0.105 0">
-        <inertial mass="0.696" pos="0.003311 0.000635 3.1e-05" quat="0.506268 0.507528 0.494499 0.491507"
+        <inertial mass="0.7" pos="0.003311 0.000635 3.1e-05" quat="0.506268 0.507528 0.494499 0.491507"
           diaginertia="0.000807752 0.00055293 0.000468983"/>
         <joint class="abduction" name="RL_hip_joint"/>
         <geom class="visual" quat="0 0 1 0" mesh="hip_franki"/>
-        <geom class="hip_left"/>
+        <geom class="collision" quat="0 0 1 0" mesh="hip_franki"/>
+        <!-- <geom class="hip_left"/> -->
         <body name="RL_thigh" pos="0 0.193 0">
-          <inertial mass="1.013" pos="-0.003237 -0.022327 -0.027326" quat="0.999125 0.00256393 -0.0409531 0.00806091"
+          <inertial mass="1.5" pos="-0.003237 -0.022327 -0.027326" quat="0.999125 0.00256393 -0.0409531 0.00806091"
             diaginertia="0.00555739 0.00513936 0.00133944"/>
           <joint class="hip" name="RL_thigh_joint"/>
           <geom class="visual" mesh="thigh_franki"/>
-          <geom class="thigh1"/>
+          <geom class="collision" mesh="thigh_franki"/>
+          <!-- <geom class="thigh1"/>
           <geom class="thigh2"/>
-          <geom class="thigh3"/>
+          <geom class="thigh3"/> -->
           <body name="RL_calf" pos="0 0 -0.2575">
             <inertial mass="0.226" pos="0.00472659 0 -0.131975" quat="0.706886 0.017653 0.017653 0.706886"
               diaginertia="0.00340344 0.00339393 3.54834e-05"/>
             <joint class="knee" name="RL_calf_joint"/>
             <geom class="visual" mesh="calf_franki"/>
-            <geom class="calf1"/>
+            <geom class="collision" mesh="calf_franki"/>
+            <!-- <geom class="calf1"/>
             <geom class="calf2"/>
-            <geom class="foot"/>
+            <geom class="foot"/> -->
           </body>
         </body>
       </body>

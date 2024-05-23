@@ -13,12 +13,12 @@
         <position ctrlrange="-0.802851 0.802851"/>
       </default>
       <default class="hip">
-        <joint range="-1.0472 4.18879"/>
-        <position ctrlrange="-1.0472 4.18879"/>
+        <joint range="-1.0472 1.3"/>
+        <position ctrlrange="-1.0472 1.3"/>
       </default>
       <default class="knee">
-        <joint range="-2.69653 -0.916298"/>
-        <position ctrlrange="-2.69653 -0.916298"/>
+        <joint range="-1.6 0.5"/>
+        <position ctrlrange="-1.6 0.5"/>
       </default>
       <default class="visual">
         <geom type="mesh" contype="0" conaffinity="0" group="2" material="dark"/>
@@ -47,7 +47,7 @@
           <geom size="0.01" fromto="0.02 0 -0.13 0 0 -0.2"/>
         </default>
         <default class="foot">
-          <geom type="sphere" size="0.02" pos="0 0 -0.2" priority="1" solimp="0.015 1 0.031" condim="6"
+          <geom type="sphere" size="0.035" pos="0.16 0 -0.247" priority="1" solimp="0.015 1 0.031" condim="6"
             friction="0.8 0.02 0.01"/>
         </default>
       </default>
@@ -103,10 +103,10 @@
               diaginertia="0.00340344 0.00339393 3.54834e-05"/>
             <joint class="knee" name="FR_calf_joint"/>
             <geom class="visual" mesh="calf_franki"/>
-            <geom class="collision" mesh="calf_franki"/>
+            <!-- <geom class="collision" mesh="calf_franki"/> -->
             <!-- <geom class="calf1"/>
-            <geom class="calf2"/>
-            <geom class="foot"/> -->
+            <geom class="calf2"/>-->
+            <geom class="foot"/> 
           </body>
         </body>
       </body>
@@ -132,10 +132,11 @@
               diaginertia="0.00340344 0.00339393 3.54834e-05"/>
             <joint class="knee" name="FL_calf_joint"/>
             <geom class="visual" mesh="calf_franki"/>
-            <geom class="collision" mesh="calf_franki"/>
+            <!-- <geom class="collision" mesh="calf_franki"/> -->
+            <geom class="foot"/> 
             <!-- <geom class="calf1"/>
-            <geom class="calf2"/>
-            <geom class="foot"/> -->
+            <geom class="calf2"/> -->
+            
           </body>
         </body>
       </body>
@@ -160,10 +161,10 @@
               diaginertia="0.00340344 0.00339393 3.54834e-05"/>
             <joint class="knee" name="RR_calf_joint"/>
             <geom class="visual" mesh="calf_franki"/>
-            <geom class="collision" mesh="calf_franki"/>
+            <!-- <geom class="collision" mesh="calf_franki"/> -->
             <!-- <geom class="calf1"/>
-            <geom class="calf2"/>
-            <geom class="foot"/> -->
+            <geom class="calf2"/>-->
+            <geom class="foot"/> 
           </body>
         </body>
       </body>
@@ -188,10 +189,10 @@
               diaginertia="0.00340344 0.00339393 3.54834e-05"/>
             <joint class="knee" name="RL_calf_joint"/>
             <geom class="visual" mesh="calf_franki"/>
-            <geom class="collision" mesh="calf_franki"/>
+            <!-- <geom class="collision" mesh="calf_franki"/> -->
             <!-- <geom class="calf1"/>
-            <geom class="calf2"/>
-            <geom class="foot"/> -->
+            <geom class="calf2"/>-->
+            <geom class="foot"/> 
           </body>
         </body>
       </body>

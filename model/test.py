@@ -18,4 +18,4 @@ with mujoco.viewer.launch_passive(model, data, show_left_ui=True,show_right_ui=T
     # Rudimentary time keeping, will drift relative to wall clock.
     time_until_next_step = model.opt.timestep - (time.time() - step_start)
     if time_until_next_step > 0:
-      time.sleep(time_until_next_step/2)
+      time.sleep(time_until_next_step)

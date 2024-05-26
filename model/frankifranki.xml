@@ -56,8 +56,8 @@
 
   <asset>
     <material name="dark" specular="0" shininess="0.25" rgba="0.45 0.45 0.45 1"/>
-    <texture type="2d" name="trunk_A1" file="trunk_A1.png"/>
-    <material name="carbonfibre" texture="trunk_A1" specular="0" shininess="0.25"/>
+    <texture type="2d" name="trunk_franki" file="trunk_franki.png"/>
+    <material name="carbonfibre" texture="trunk_franki" specular="0" shininess="0.25"/>
 
     <mesh class="franki" file="calf_franki.obj"/>
     <mesh class="franki" file="hip_franki.obj"/>

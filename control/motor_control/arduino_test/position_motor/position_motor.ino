@@ -6,21 +6,14 @@
 #define INH_A 6
 #define INH_B 7
 #define INH_C 8
-
 #define EN_GATE 3
-#define M_PWM 11
-#define M_OC 12
-#define OC_ADJ 13
+#define EN_LED 13
 #define N_FAULT 9
 #define N_OCTW 10
-// #define IOUTA 13
-// #define IOUTB 14
-// #define IOUTC 15
-#define DIR 19
+#define DIR 22
 
 // Motor instance (90KV, pero se recomienda un 50 a 70% más)
-BLDCMotor motor = BLDCMotor(20, 0.05, 90);
-//BLDCMotor motor = BLDCMotor(20, 0.186, 135);
+BLDCMotor motor = BLDCMotor(20, 0.186, 108);
 
 BLDCDriver3PWM driver = BLDCDriver3PWM(INH_A, INH_B, INH_C, EN_GATE);
 MagneticSensorI2C sensor = MagneticSensorI2C(0x36, 12, 0x0E, 4);
@@ -49,16 +42,18 @@ void serialEvent() {
 
 void setup() {
 
-  //current reading (INLINE )
-  // pinMode(IOUTA, INPUT);
-  // pinMode(IOUTB, INPUT);
-  // pinMode(IOUTC, INPUT);
-
-  //led onboard
-  pinMode(25, OUTPUT);
-  digitalWrite(25, HIGH);
   pinMode(DIR, OUTPUT);
   digitalWrite(DIR, LOW);
+  // initialise magnetic sensor hardware
+  sensor.init();
+  // link the motor to the sensor
+  motor.linkSensor(&sensor);
+
+  // DRV8302 specific code
+  //Alerts
+  pinMode(N_FAULT, INPUT);
+  pinMode(N_OCTW, INPUT);
+
   // initialise magnetic sensor hardware
   // configure i2C
   Wire.setClock(100000);
@@ -73,22 +68,11 @@ void setup() {
   pinMode(N_FAULT, INPUT);
   pinMode(N_OCTW, INPUT);
 
-  // M_OC  - enable overcurrent protection (LOW)
-  pinMode(M_OC, OUTPUT);
-  digitalWrite(M_OC, LOW);
-  // M_PWM  - enable 3pwm mode
-  pinMode(M_PWM, OUTPUT);
-  digitalWrite(M_PWM, HIGH);
-  // OD_ADJ - set the maximum overcurrent limit possible
-  // Better option would be to use voltage divisor to set exact value
-  pinMode(OC_ADJ, OUTPUT);
-  digitalWrite(OC_ADJ, HIGH);
-
   // driver config
   // power supply voltage [V]
   driver.voltage_power_supply = 24;
   // pwm frequency to be used [Hz]
-  driver.pwm_frequency = 40000;
+  driver.pwm_frequency = 50000;
   driver.init();
   // link the motor and the driver
   motor.linkDriver(&driver);
@@ -122,17 +106,17 @@ void setup() {
   motor.P_angle.output_ramp = 10000;  // default 1e6 rad/s^2
 
   // maximal voltage to be set to the motor
-  motor.voltage_limit = 24;
+  motor.voltage_limit = 12;
   // maximal velocity of the position control
-  motor.velocity_limit = 50;
+  motor.velocity_limit = 10;
   //motor.PID_velocity.limit = 100;
-  motor.current_limit = 20;
+  motor.current_limit = 5;
 
   //encoder offset
   motor.sensor_offset = 0;
   // use monitoring with serial
   Serial.begin(115200);
-  motor.useMonitoring(Serial);
+  //motor.useMonitoring(Serial);
   // initialize motor
   motor.init();
   // align sensor and start FOC
@@ -149,6 +133,7 @@ void loop() {
 
   // main FOC algorithm function
   motor.loopFOC();
+  serialEvent();
   if (stringComplete) {
     if (inputString.substring(0, 1) == "T") {
       // take and split the next 6 characters of the string

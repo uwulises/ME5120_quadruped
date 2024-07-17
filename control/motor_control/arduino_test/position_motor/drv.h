@@ -11,6 +11,8 @@
 #define EN_LED 13
 #define N_FAULT 9
 #define N_OCTW 10
+#define ALARM_OC_LED 14
+#define TEMP_LED 15
 #define DIR 22
 
 void drv_setup(void);

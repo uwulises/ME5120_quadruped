@@ -8,6 +8,12 @@ MagneticSensorI2C sensor = MagneticSensorI2C(0x36, 12, 0x0E, 4);
 
 void drv_setup(void)
 {
+  pinMode(EN_LED,OUTPUT);
+  digitalWrite(EN_LED,HIGH);
+  pinMode(ALARM_OC_LED,OUTPUT);
+  digitalWrite(ALARM_OC_LED,HIGH);
+  pinMode(TEMP_LED,OUTPUT);
+  digitalWrite(TEMP_LED,HIGH);
   pinMode(DIR, OUTPUT);
   digitalWrite(DIR, LOW);
   // initialise magnetic sensor hardware

@@ -23,7 +23,7 @@ En esta versi√≥n se propone utilizar el driver texas drv8302 junto a la [librer√
 
 ### Hat schematic
  
-<img src="/wiring.png" width="400">
+<img src="/schematic.png" width="400">
 
 ### Hat Board
 

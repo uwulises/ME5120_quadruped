@@ -9,7 +9,13 @@ Las siguientes etapas se centrarán en el control de la caminata y planificació
 - [ ] MQTT wireless moves callback
 - [ ] MuJoCo model update
 
+
+# Design
+
+<img src="/assembly.png" width="500">
+
 # Hardware
+
 ## Driver + Rpi Pico Hat
 En esta versión se propone utilizar el driver texas drv8302 junto a la [librería SimpleFOC](https://docs.simplefoc.com/drv8302_example)
 ### SimpleFOC example
@@ -22,10 +28,6 @@ En esta versión se propone utilizar el driver texas drv8302 junto a la [librer�
 ### Hat Board
 
 <img src="/board_hat.png" width="400">
-
-# Design
-
-<img src="/assembly.png" width="500">
 
 ## Simulation - Mujoco
 <img src="/sim_mujoco.png" width="500">

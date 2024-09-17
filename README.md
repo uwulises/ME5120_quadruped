@@ -2,9 +2,12 @@
 Este proyecto pretende diseñar y fabricar un cuadrúpedo autónomo. La primera etapa corresponde a seleccionar y diseñar el hardware adecuado para montar una estructura funcional.
 Las siguientes etapas se centrarán en el control de la caminata y planificación/navegación del entorno.
 
-## 
-- [ ] PCB design
-- [ ] Basic motor control
+## TODO
+- [x] PCB design
+- [x] Basic motor control
+- [ ] SPI communication
+- [ ] MQTT wireless moves callback
+- [ ] MuJoCo model update
 
 # Hardware
 ## Driver + Rpi Pico Hat
@@ -15,6 +18,10 @@ En esta versión se propone utilizar el driver texas drv8302 junto a la [librer�
 ### Hat schematic
  
 <img src="/wiring.png" width="400">
+
+### Hat Board
+
+<img src="/board_hat.png" width="400">
 
 # Design
 

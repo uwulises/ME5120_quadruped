@@ -5,9 +5,11 @@ Las siguientes etapas se centrarán en el control de la caminata y planificació
 ## TODO
 - [x] PCB design
 - [x] Basic motor control
-- [ ] SPI communication
+- [ ] SPI leg communication
+- [ ] UART legs communication
 - [ ] MQTT wireless moves callback
 - [ ] MuJoCo model update
+- [ ] ROS2 model
 
 
 # Design

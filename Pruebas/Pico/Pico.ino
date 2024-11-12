@@ -1,36 +1,54 @@
 #include <SPI.h>
 
-#define CS_PIN 17 // Chip select pin for this Pico (change for each Pico)
+#define CS_PIN 17  // Chip select pin (adjust based on your wiring)
 
-volatile byte receivedData = 0; // Variable to store received data
+volatile byte receivedData = 0;
 volatile bool dataReceived = false;
 
+// Define the SPI settings (speed: 1 MHz, mode: 0)
+SPISettings spiSettings(500000, MSBFIRST, SPI_MODE0);
+
 void setup() {
-  pinMode(CS_PIN, OUTPUT); // Set CS pin as output
-  digitalWrite(CS_PIN, HIGH); // Set CS pin high (inactive)
+  // Setup serial for debuggi500000
+  Serial.begin(9600);
 
-  // Initialize SPI
+  // Set CS_PIN as output and set it high (inactive)
+  pinMode(CS_PIN, OUTPUT);
+  digitalWrite(CS_PIN, HIGH);
+
+  // Begin SPI as a slave
   SPI.begin();
-  SPI.setDataMode(SPI_MODE0);
-  SPI.setClockDivider(SPI_CLOCK_DIV8); // Adjust clock speed as necessary
 
-  // Enable SPI interrupt on receive
-  SPCR |= _BV(SPE);
-  SPCR |= _BV(SPIE);
-
-  Serial.begin(9600); // Start serial communication for debugging
+  // Attach interrupt on CS pin to detect when the master initiates communication
+  attachInterrupt(digitalPinToInterrupt(CS_PIN), onSPIReceive, FALLING);
 }
 
-ISR(SPI_STC_vect) {
-  receivedData = SPDR; // Read received data
-  dataReceived = true; // Set flag to indicate data received
-  SPDR = receivedData + 1; // Send response (for example, incrementing received value)
+void onSPIReceive() {
+  // Begin the SPI transaction with the defined settings
+  SPI.beginTransaction(spiSettings);
+
+  // Read data from master (dummy byte 0x00 sent to receive)
+  receivedData = SPI.transfer(0x00);
+  dataReceived = true;
+
+  // End the SPI transaction
+  SPI.endTransaction();
 }
 
 void loop() {
   if (dataReceived) {
-    Serial.print("Received Data: ");
+    Serial.print("Data received: ");
     Serial.println(receivedData);
+
+    // Send response back to the master (e.g., incremented data)
+    byte response = receivedData + 1;
+
+    // Begin the SPI transaction again to send data back
+    SPI.beginTransaction(spiSettings);
+    SPI.transfer(response);
+    SPI.endTransaction();
+
+    // Clear the dataReceived flag
     dataReceived = false;
   }
 }

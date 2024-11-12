@@ -1,13 +1,14 @@
 import spidev
-import RPi.GPIO as GPIO
+import lgpio  # Replacing RPi.GPIO with lgpio for Raspberry Pi 5 compatibility
 import time
 
 # Setup Chip Select (CS) pins for each Pico
 cs_pins = [8, 7, 5]  # GPIO pins for CS
-GPIO.setmode(GPIO.BCM)
+h = lgpio.gpiochip_open(0)  # Open GPIO chip 0
+
 for pin in cs_pins:
-    GPIO.setup(pin, GPIO.OUT)
-    GPIO.output(pin, GPIO.HIGH)
+    lgpio.gpio_claim_output(h, pin)  # Set CS pins as output
+    lgpio.gpio_write(h, pin, 1)  # Set CS pins high
 
 # SPI setup
 spi = spidev.SpiDev()
@@ -16,13 +17,13 @@ spi.max_speed_hz = 500000  # Set SPI speed (500kHz)
 
 def select_device(device_num):
     for pin in cs_pins:
-        GPIO.output(pin, GPIO.HIGH)
-    GPIO.output(cs_pins[device_num], GPIO.LOW)
+        lgpio.gpio_write(h, pin, 1)  # Deselect all devices (set CS high)
+    lgpio.gpio_write(h, cs_pins[device_num], 0)  # Select the target device (set CS low)
 
 def communicate_with_pico(device_num, data):
     select_device(device_num)
-    response = spi.xfer2(data)
-    GPIO.output(cs_pins[device_num], GPIO.HIGH)
+    response = spi.xfer2(data)  # Send and receive data via SPI
+    lgpio.gpio_write(h, cs_pins[device_num], 1)  # Deselect the device (set CS high)
     return response
 
 try:
@@ -42,5 +43,5 @@ try:
         time.sleep(1)
 
 finally:
-    GPIO.cleanup()
+    lgpio.gpiochip_close(h)  # Cleanup GPIO
     spi.close()

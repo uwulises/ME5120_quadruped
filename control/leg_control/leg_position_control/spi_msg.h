@@ -9,8 +9,8 @@
 #define BUF_LEN 4
 
 // Define CS pins for each slave
-#define CS_SLAVE1 5
-#define CS_SLAVE2 6
+#define CS_SLAVE1 20
+#define CS_SLAVE2 21
 
 void spi_master_init();
 

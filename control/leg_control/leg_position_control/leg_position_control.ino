@@ -44,11 +44,17 @@ void loop() {
 
   if (stringComplete) {
     if (inputString.substring(0, 1) == "T") {
+      Serial.println(inputString);
       hombro_target = inputString.substring(1, 4).toInt();
-      sup_target = inputString.substring(5, 8).toInt();
-      inf_target = inputString.substring(9, 12).toInt();
-      sup_pos=spi_exchange_angle(CS_SLAVE1, sup_motor);
-      inf_pos=spi_exchange_angle(CS_SLAVE2, inf_motor);
+      sup_target = inputString.substring(4, 7).toInt();
+      inf_target = inputString.substring(7, 11).toInt();
+      sup_pos=spi_exchange_angle(CS_SLAVE1, sup_target);
+      //inf_pos=spi_exchange_angle(CS_SLAVE2, inf_target);
+      Serial.println(hombro_target);
+      Serial.println(sup_target);
+      Serial.println(inf_target);
+      Serial.println(sup_pos);
+      Serial.println(inf_pos);
       update_target(hombro_target);
       inputString = "";
       stringComplete = false;

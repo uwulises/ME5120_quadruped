@@ -5,12 +5,12 @@
 String inputString = "";
 bool stringComplete = false;
 
-int hombro_target = 0;
-int hombro_pos = 0;
-int sup_target = 0;
-int sup_pos = 0;
-int inf_target = 0;
-int inf_pos = 0;
+uint8_t hombro_target = 0;
+uint8_t hombro_pos = 0;
+uint8_t sup_target = 0;
+uint8_t sup_pos = 0;
+uint8_t inf_target = 0;
+uint8_t inf_pos = 0;
 
 void serialEvent() {
   while (Serial.available()) {
@@ -48,8 +48,10 @@ void loop() {
       hombro_target = inputString.substring(1, 4).toInt();
       sup_target = inputString.substring(4, 7).toInt();
       inf_target = inputString.substring(7, 11).toInt();
+      if (spi_is_writable(spi_default)){
       sup_pos=spi_exchange_angle(CS_SLAVE1, sup_target);
       //inf_pos=spi_exchange_angle(CS_SLAVE2, inf_target);
+      }
       Serial.println(hombro_target);
       Serial.println(sup_target);
       Serial.println(inf_target);

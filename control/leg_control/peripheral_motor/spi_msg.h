@@ -5,18 +5,19 @@
 #include <cstring>
 #include "pico/stdlib.h"
 #include "hardware/spi.h"
+#include "pico/binary_info.h"
 
-#define BUF_LEN 4
+#define BUF_LEN 1
 
 // Define CS pins for each slave
 #define CS_SLAVE1 20
 #define CS_SLAVE2 21
 
 void spi_master_init();
-int spi_slave_exchange(int current_position);
+uint8_t spi_slave_exchange(uint8_t current_position);
 void spi_slave_init();
 
-int spi_exchange_angle(uint cs_pin, int target_angle);
+uint8_t spi_exchange_angle(uint cs_pin, uint8_t target_angle);
 
 void select_slave(uint cs_pin);
 void deselect_slave(uint cs_pin);
